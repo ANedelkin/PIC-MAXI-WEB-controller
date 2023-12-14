@@ -1,0 +1,18 @@
+C:\Users\Alex\source\repos\PIC controller test\PIC controller test\bin\Release\net5.0-windows\win-x86\PIC controller test.exe
+C:\Users\Alex\source\repos\PIC controller test\PIC controller test\bin\Release\net5.0-windows\win-x86\PIC controller test.deps.json
+C:\Users\Alex\source\repos\PIC controller test\PIC controller test\bin\Release\net5.0-windows\win-x86\PIC controller test.runtimeconfig.json
+C:\Users\Alex\source\repos\PIC controller test\PIC controller test\bin\Release\net5.0-windows\win-x86\PIC controller test.runtimeconfig.dev.json
+C:\Users\Alex\source\repos\PIC controller test\PIC controller test\bin\Release\net5.0-windows\win-x86\PIC controller test.dll
+C:\Users\Alex\source\repos\PIC controller test\PIC controller test\bin\Release\net5.0-windows\win-x86\ref\PIC controller test.dll
+C:\Users\Alex\source\repos\PIC controller test\PIC controller test\bin\Release\net5.0-windows\win-x86\PIC controller test.pdb
+C:\Users\Alex\source\repos\PIC controller test\PIC controller test\bin\Release\net5.0-windows\win-x86\System.IO.Ports.dll
+C:\Users\Alex\source\repos\PIC controller test\PIC controller test\obj\Release\net5.0-windows\win-x86\PIC_controller_test.Form1.resources
+C:\Users\Alex\source\repos\PIC controller test\PIC controller test\obj\Release\net5.0-windows\win-x86\PIC controller test.csproj.GenerateResource.cache
+C:\Users\Alex\source\repos\PIC controller test\PIC controller test\obj\Release\net5.0-windows\win-x86\PIC controller test.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Alex\source\repos\PIC controller test\PIC controller test\obj\Release\net5.0-windows\win-x86\PIC controller test.AssemblyInfoInputs.cache
+C:\Users\Alex\source\repos\PIC controller test\PIC controller test\obj\Release\net5.0-windows\win-x86\PIC controller test.AssemblyInfo.cs
+C:\Users\Alex\source\repos\PIC controller test\PIC controller test\obj\Release\net5.0-windows\win-x86\PIC controller test.csproj.CoreCompileInputs.cache
+C:\Users\Alex\source\repos\PIC controller test\PIC controller test\obj\Release\net5.0-windows\win-x86\PIC controller test.dll
+C:\Users\Alex\source\repos\PIC controller test\PIC controller test\obj\Release\net5.0-windows\win-x86\ref\PIC controller test.dll
+C:\Users\Alex\source\repos\PIC controller test\PIC controller test\obj\Release\net5.0-windows\win-x86\PIC controller test.pdb
+C:\Users\Alex\source\repos\PIC controller test\PIC controller test\obj\Release\net5.0-windows\win-x86\PIC controller test.genruntimeconfig.cache
