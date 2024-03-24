@@ -9445,7 +9445,7 @@ void LCD_Init();
 
 void LCD_PrintChar(char);
 
-void LCD_PrintStr(const char *);
+void LCD_PrintStr(const char *, int);
 
 void LCD_Clear();
 
@@ -9455,10 +9455,6 @@ void LCD_TurnOn();
 
 void LCD_SetCursorAt(int, int);
 
-
-
-void LCD_TypeStr(const char *, int);
-
 void LCD_CursorOn();
 
 void LCD_CursorOff();
@@ -9467,9 +9463,7 @@ void LCD_CursorBlinkingOn();
 
 void LCD_CursorBlinkingOff();
 
-void LCD_PrintNum(long int);
-
-void LCD_displayNumberRight(long int);
+void LCD_PrintNum(long int, int);
 
 void LCD_MoveCursorLeft(int);
 
@@ -9494,7 +9488,6 @@ void LCD_Wait() {
             PORTHbits.RH2 = 0;
             PORTHbits.RH1 = 1;
 
-
             PORTHbits.RH0 = 1; __delay(2);
             while(PORTEbits.RE7) {
                 PORTHbits.RH0=0; __delay(2);
@@ -9508,7 +9501,6 @@ void LCD_Wait() {
             TRISE |= 0b11110000;
             PORTHbits.RH2 = 0;
             PORTHbits.RH1 = 1;
-
 
             PORTHbits.RH0 = 1; __delay(2);
             while(PORTEbits.RE7) {
@@ -9565,14 +9557,12 @@ void LCD_Init() {
     TRISE = TRISGbits.RG5 = TRISHbits.TRISH2 = TRISHbits.TRISH1 = TRISHbits.TRISH0 = 0;
     PORTHbits.RH0 = PORTHbits.RH2 = PORTHbits.RH1 = PORTE = 0;
 
-
     int LCD_dl, LCD_n, LCD_f;
     if(8 == 8) LCD_dl = 1; else if(8 == 4) LCD_dl = 0;
     if(2 == 2) LCD_n = 1; else if(2 == 1) LCD_n = 0;
     if(8 == 10) LCD_f = 1; else if(8 == 8) LCD_f = 0;
 
     if(8 == 8) {
-
 
         _delay_ms(50);
         LCD_8bitCodeNoWait(0b0000100000 + (LCD_dl<<4) + (LCD_n<<3) + (LCD_f<<2));
@@ -9588,11 +9578,9 @@ void LCD_Init() {
         LCD_8bitCode(0b0000000001);
         LCD_8bitCode(0b0000000100 + (LCD_isIncrement<<1) + LCD_isShift);
 
-
         LCD_8bitCode(0b0000001000 + (LCD_isDisplayOn<<2) + (LCD_isCursorOn<<1) + LCD_isCursorBlinking);
     }
     else if(8 == 4) {
-
         _delay_ms(50);
         LCD_4bitCodeNoWait(0b000011);
         _delay_ms(10);
@@ -9608,172 +9596,117 @@ void LCD_Init() {
         LCD_4bitCode(0b000000); LCD_4bitCode(0b000001);
         LCD_4bitCode(0b000000); LCD_4bitCode(0b000100 + (LCD_isIncrement<<1) + LCD_isShift);
 
-
         LCD_4bitCode(0b000000); LCD_4bitCode(0b001000 + (LCD_isDisplayOn<<2) + (LCD_isCursorOn<<1) + LCD_isCursorBlinking);
     }
     LCD_SetCursorAt(LCD_posX, LCD_posY);
 }
-
-
 void LCD_PrintChar(char inputChar) {
     LCD_Code(0b1000000000 + inputChar);
-
     if(LCD_isIncrement) LCD_posX++; else LCD_posX--;
-
     if(!LCD_isCursorMoving) {
         if(LCD_isIncrement) LCD_MoveCursorLeft(1);
         else LCD_MoveCursorRight(1);
     }
 }
-
-
-void LCD_PrintStr(const char *str) {
-
+void LCD_PrintStr(const char *str, int delay) {
     int initialX = LCD_posX;
     int initialY = LCD_posY;
-
     for(int i = 0; i < strlen(str); i++) {
-        if (str[i] == '\r'){
-            LCD_SetCursorAt(1, 2);
-            i++;
-        }
-        else{
-            LCD_PrintChar(str[i]);
-
-            if(!LCD_isCursorMoving) {
-                if(LCD_isIncrement) LCD_MoveCursorRight(1);
-                else LCD_MoveCursorLeft(1);
-            }
-        }
-    }
-
-    if(!LCD_isCursorMoving) LCD_SetCursorAt(initialX, initialY);
-}
-
-
-void LCD_TypeStr(const char *str, int delay) {
-
-    int initialX = LCD_posX;
-    int initialY = LCD_posY;
-
-    for(int i = 0; i < strlen(str); i++) {
+        if (i == 16) LCD_SetCursorAt(1, 2);
         LCD_PrintChar(str[i]);
-
         if(!LCD_isCursorMoving) {
             if(LCD_isIncrement) LCD_MoveCursorRight(1);
             else LCD_MoveCursorLeft(1);
         }
         _delay_ms(delay);
     }
-
     if(!LCD_isCursorMoving) LCD_SetCursorAt(initialX, initialY);
 }
-
-void LCD_PrintNum(long int number) {
+void LCD_PrintNum(long int number, int delay) {
     char strNumber[20];
     sprintf(strNumber, "%d", number);
-
-    LCD_PrintStr(strNumber);
+    LCD_PrintStr(strNumber, delay);
 }
-# 209 "LCD-library/LCD-library.c"
 void LCD_Clear() {
     LCD_Code(0b0000000001);
     LCD_posX = LCD_posY = 1;
     _delay_ms(200);
 }
-
-
-
 void LCD_TurnOff() {
     if(LCD_isDisplayOn) {
         LCD_Code(0b0000001000);
         LCD_isDisplayOn = 0;
     }
 }
-
-
 void LCD_TurnOn() {
     if(!LCD_isDisplayOn) {
        LCD_Code(0b0000001100 + (LCD_isCursorOn<<1) + LCD_isCursorBlinking);
        LCD_isDisplayOn = 1;
     }
 }
-
-void LCD_SetCursorAt(int pos, int row) {
-    if(pos >= 1 && pos <= 16 && row >= 1 && row <= 2){
-        LCD_posX = pos;
-        LCD_posY = row;
-        switch(row) {
-            case 1: LCD_Code(0b0010000000 + 0x00 + (pos-1)); break;
-            case 2: LCD_Code(0b0010000000 + 0x40 + (pos-1)); break;
-
-
-            default: LCD_Code(0b0010000000 + 0x00 + (pos-1)); break;
+void LCD_SetCursorAt(int x, int y) {
+    if(x >= 1 && x <= 16 && y >= 1 && y <= 2){
+        LCD_posX = x;
+        LCD_posY = y;
+        switch(y) {
+            case 1: LCD_Code(0b0010000000 + 0x00 + (x-1)); break;
+            case 2: LCD_Code(0b0010000000 + 0x40 + (x-1)); break;
+            default: LCD_Code(0b0010000000 + 0x00 + (x-1)); break;
         }
     }
 }
-
 void LCD_home() {
     LCD_Code(0b0000000010);
     LCD_posX = LCD_posY = 1;
 }
-
 void LCD_CursorOff() {
     if(LCD_isCursorOn) {
         LCD_Code(0b0000001000 + (LCD_isDisplayOn<<2) + LCD_isCursorBlinking);
         LCD_isCursorOn = 0;
     }
 }
-
 void LCD_CursorOn() {
     if(!LCD_isCursorOn) {
         LCD_Code(0b0000001010 + (LCD_isDisplayOn<<2) + LCD_isCursorBlinking);
         LCD_isCursorOn = 1;
     }
 }
-
 void LCD_CursorBlinkingOn() {
     if(LCD_isCursorBlinking) {
         LCD_Code(0b0000001000 + (LCD_isDisplayOn<<2) + (LCD_isCursorOn<<1));
         LCD_isCursorBlinking = 0;
     }
 }
-
 void LCD_CursorBlinkingOff() {
     if(!LCD_isCursorBlinking) {
         LCD_Code(0b0000001001 + (LCD_isDisplayOn<<2) + (LCD_isCursorOn<<1));
         LCD_isCursorBlinking = 1;
     }
 }
-
-void LCD_MoveCursorLeft(int howMuch) {
-    if(LCD_posX -howMuch >= 1) {
-        LCD_posX -= howMuch;
+void LCD_MoveCursorLeft(int amound) {
+    if(LCD_posX -amound >= 1) {
+        LCD_posX -= amound;
         LCD_SetCursorAt(LCD_posX, LCD_posY);
     }
 }
-
-void LCD_MoveCursorRight(int howMuch) {
-    if(LCD_posX +howMuch <= 16) {
-        LCD_posX += howMuch;
+void LCD_MoveCursorRight(int amount) {
+    if(LCD_posX +amount <= 16) {
+        LCD_posX += amount;
         LCD_SetCursorAt(LCD_posX, LCD_posY);
     }
 }
-
-void LCD_MoveCursorUp(int howMuch) {
-    if(LCD_posY -howMuch >= 1) {
-        LCD_posY -= howMuch;
+void LCD_MoveCursorUp(int amount) {
+    if(LCD_posY -amount >= 1) {
+        LCD_posY -= amount;
         LCD_SetCursorAt(LCD_posX, LCD_posY);
     }
 }
-
-void LCD_MoveCursorDown(int howMuch) {
-    if(LCD_posY +howMuch <= 2) {
-        LCD_posY += howMuch;
+void LCD_MoveCursorDown(int amount) {
+    if(LCD_posY +amount <= 2) {
+        LCD_posY += amount;
         LCD_SetCursorAt(LCD_posX, LCD_posY);
     }
 }
-
 void LCD_NewChar(uint8_t location, const uint8_t *pattern) {
     uint8_t i;
     for (i = 0; i < 8; i++) {
@@ -9781,5 +9714,4 @@ void LCD_NewChar(uint8_t location, const uint8_t *pattern) {
         LCD_Code((0b10 << 8) + pattern[i]);
     }
     LCD_SetCursorAt(0, 0);
-
 }

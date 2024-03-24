@@ -85,6 +85,7 @@ typedef union {
 /**
  Section: Global variables
  */
+uint8_t connected;
 extern volatile uint8_t eusart1TxBufferRemaining;
 extern volatile uint8_t eusart1RxCount;
 
@@ -462,6 +463,8 @@ void EUSART1_SetErrorHandler(void (* interruptHandler)(void));
     None
 */
 void EUSART1_SetRxInterruptHandler(void (* interruptHandler)(void));
+void HandleCommand(char received);
+void HandleInterrupt(void);
 
 #ifdef __cplusplus  // Provide C++ Compatibility
 

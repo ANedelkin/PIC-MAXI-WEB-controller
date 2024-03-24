@@ -93,10 +93,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "9164
 [; ;C:/Program Files/Microchip/MPLABX/v6.10/packs/Microchip/PIC18F-J_DFP/1.6.157/xc8\pic\include\proc\pic18f97j60.h: 9164: extern volatile PIR1bits_t PIR1bits __attribute__((address(0xF9E)));
 [v _PIR1bits `VS316 ~T0 @X0 0 e@3998 ]
-[v F5267 `(v ~T0 @X0 0 tf ]
-"94 mcc_generated_files/eusart1.h
-[; ;mcc_generated_files/eusart1.h: 94: extern void (*EUSART1_RxDefaultInterruptHandler)(void);
-[v _EUSART1_RxDefaultInterruptHandler `*F5267 ~T0 @X0 0 e ]
+[v F5269 `(v ~T0 @X0 0 tf ]
+"95 mcc_generated_files/eusart1.h
+[; ;mcc_generated_files/eusart1.h: 95: extern void (*EUSART1_RxDefaultInterruptHandler)(void);
+[v _EUSART1_RxDefaultInterruptHandler `*F5269 ~T0 @X0 0 e ]
 "54 C:/Program Files/Microchip/MPLABX/v6.10/packs/Microchip/PIC18F-J_DFP/1.6.157/xc8\pic\include\proc\pic18f97j60.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.10/packs/Microchip/PIC18F-J_DFP/1.6.157/xc8\pic\include\proc\pic18f97j60.h: 54: __asm("MAADR5 equ 0E80h");
 [; <" MAADR5 equ 0E80h ;# ">
@@ -967,6 +967,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "14693
 [; ;C:/Program Files/Microchip/MPLABX/v6.10/packs/Microchip/PIC18F-J_DFP/1.6.157/xc8\pic\include\proc\pic18f97j60.h: 14693: __asm("TOSU equ 0FFFh");
 [; <" TOSU equ 0FFFh ;# ">
+"88 mcc_generated_files/eusart1.h
+[; ;mcc_generated_files/eusart1.h: 88: uint8_t connected;
+[v _connected `uc ~T0 @X0 1 e ]
 "52 mcc_generated_files/interrupt_manager.c
 [; ;mcc_generated_files/interrupt_manager.c: 52: void INTERRUPT_Initialize (void)
 [v _INTERRUPT_Initialize `(v ~T0 @X0 1 ef ]

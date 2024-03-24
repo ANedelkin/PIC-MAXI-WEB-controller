@@ -8832,9 +8832,9 @@ unsigned char __t3rd16on(void);
 # 50 "./mcc_generated_files/mcc.h" 2
 
 # 1 "./mcc_generated_files/pin_manager.h" 1
-# 175 "./mcc_generated_files/pin_manager.h"
+# 189 "./mcc_generated_files/pin_manager.h"
 void PIN_MANAGER_Initialize (void);
-# 187 "./mcc_generated_files/pin_manager.h"
+# 201 "./mcc_generated_files/pin_manager.h"
 void PIN_MANAGER_IOC(void);
 # 51 "./mcc_generated_files/mcc.h" 2
 
@@ -9019,21 +9019,22 @@ typedef struct
 typedef enum
 {
     channel_AN0 = 0x0,
-    Potentiometer = 0x2
+    Potentiometer = 0x2,
+    Temperature = 0x3
 } adc_channel_t;
-# 134 "./mcc_generated_files/adc.h"
+# 135 "./mcc_generated_files/adc.h"
 void ADC_Initialize(void);
-# 164 "./mcc_generated_files/adc.h"
+# 165 "./mcc_generated_files/adc.h"
 void ADC_SelectChannel(adc_channel_t channel);
-# 191 "./mcc_generated_files/adc.h"
+# 192 "./mcc_generated_files/adc.h"
 void ADC_StartConversion(void);
-# 223 "./mcc_generated_files/adc.h"
+# 224 "./mcc_generated_files/adc.h"
 _Bool ADC_IsConversionDone(void);
-# 256 "./mcc_generated_files/adc.h"
+# 257 "./mcc_generated_files/adc.h"
 adc_result_t ADC_GetConversionResult(void);
-# 286 "./mcc_generated_files/adc.h"
+# 287 "./mcc_generated_files/adc.h"
 adc_result_t ADC_GetConversion(adc_channel_t channel);
-# 314 "./mcc_generated_files/adc.h"
+# 315 "./mcc_generated_files/adc.h"
 void ADC_TemperatureAcquisitionDelay(void);
 # 56 "./mcc_generated_files/mcc.h" 2
 
@@ -9052,6 +9053,7 @@ typedef union {
 
 
 
+uint8_t connected;
 extern volatile uint8_t eusart1TxBufferRemaining;
 extern volatile uint8_t eusart1RxCount;
 
@@ -9059,38 +9061,41 @@ extern volatile uint8_t eusart1RxCount;
 
 
 extern void (*EUSART1_RxDefaultInterruptHandler)(void);
-# 116 "./mcc_generated_files/eusart1.h"
+# 117 "./mcc_generated_files/eusart1.h"
 void EUSART1_Initialize(void);
-# 164 "./mcc_generated_files/eusart1.h"
+# 165 "./mcc_generated_files/eusart1.h"
 _Bool EUSART1_is_tx_ready(void);
-# 212 "./mcc_generated_files/eusart1.h"
+# 213 "./mcc_generated_files/eusart1.h"
 _Bool EUSART1_is_rx_ready(void);
-# 259 "./mcc_generated_files/eusart1.h"
+# 260 "./mcc_generated_files/eusart1.h"
 _Bool EUSART1_is_tx_done(void);
-# 307 "./mcc_generated_files/eusart1.h"
+# 308 "./mcc_generated_files/eusart1.h"
 eusart1_status_t EUSART1_get_last_status(void);
-# 327 "./mcc_generated_files/eusart1.h"
+# 328 "./mcc_generated_files/eusart1.h"
 uint8_t EUSART1_Read(void);
-# 347 "./mcc_generated_files/eusart1.h"
+# 348 "./mcc_generated_files/eusart1.h"
 void EUSART1_Write(uint8_t txData);
-# 369 "./mcc_generated_files/eusart1.h"
+# 370 "./mcc_generated_files/eusart1.h"
 void EUSART1_Receive_ISR(void);
-# 390 "./mcc_generated_files/eusart1.h"
+# 391 "./mcc_generated_files/eusart1.h"
 void EUSART1_RxDataHandler(void);
-# 408 "./mcc_generated_files/eusart1.h"
+# 409 "./mcc_generated_files/eusart1.h"
 void EUSART1_SetFramingErrorHandler(void (* interruptHandler)(void));
-# 425 "./mcc_generated_files/eusart1.h"
+# 426 "./mcc_generated_files/eusart1.h"
   void EUSART1_SetOverrunErrorHandler(void (* interruptHandler)(void));
-# 443 "./mcc_generated_files/eusart1.h"
+# 444 "./mcc_generated_files/eusart1.h"
 void EUSART1_SetErrorHandler(void (* interruptHandler)(void));
-# 464 "./mcc_generated_files/eusart1.h"
+# 465 "./mcc_generated_files/eusart1.h"
 void EUSART1_SetRxInterruptHandler(void (* interruptHandler)(void));
+void HandleCommand(char received);
+void HandleInterrupt(void);
 # 57 "./mcc_generated_files/mcc.h" 2
 # 72 "./mcc_generated_files/mcc.h"
 void SYSTEM_Initialize(void);
 # 85 "./mcc_generated_files/mcc.h"
 void OSCILLATOR_Initialize(void);
 # 44 "main.c" 2
+
 
 # 1 "./LCD-library/LCD-library.h" 1
 # 12 "./LCD-library/LCD-library.h"
@@ -9564,7 +9569,7 @@ void LCD_Init();
 
 void LCD_PrintChar(char);
 
-void LCD_PrintStr(const char *);
+void LCD_PrintStr(const char *, int);
 
 void LCD_Clear();
 
@@ -9574,10 +9579,6 @@ void LCD_TurnOn();
 
 void LCD_SetCursorAt(int, int);
 
-
-
-void LCD_TypeStr(const char *, int);
-
 void LCD_CursorOn();
 
 void LCD_CursorOff();
@@ -9586,9 +9587,7 @@ void LCD_CursorBlinkingOn();
 
 void LCD_CursorBlinkingOff();
 
-void LCD_PrintNum(long int);
-
-void LCD_displayNumberRight(long int);
+void LCD_PrintNum(long int, int);
 
 void LCD_MoveCursorLeft(int);
 
@@ -9599,7 +9598,7 @@ void LCD_MoveCursorUp(int);
 void LCD_MoveCursorDown(int);
 
 void LCD_NewChar(uint8_t location, const uint8_t *pattern);
-# 45 "main.c" 2
+# 46 "main.c" 2
 
 
 
@@ -9608,38 +9607,13 @@ void LCD_NewChar(uint8_t location, const uint8_t *pattern);
 
 void main(void)
 {
-
     SYSTEM_Initialize();
     LCD_Init();
-
-
-
-
-
-
     (INTCONbits.GIE = 1);
-
-
-
-
-
     (INTCONbits.PEIE = 1);
-
-
-
     PORTGbits.RG5 = 1;
     while (1)
     {
-        while(!EUSART1_is_tx_ready);
-        EUSART1_Write(PORTBbits.RB3 + '0');
-        EUSART1_Write(' ');
-        EUSART1_Write(PORTBbits.RB1 + '0');
-        EUSART1_Write(' ');
-        char PotValue[5];
-        sprintf(PotValue, "%d", ADC_GetConversion(Potentiometer));
-        EUSART1_Write(PotValue);
-        EUSART1_Write(' ');
-        EUSART1_Write(3);
-        _delay((unsigned long)((200)*(25000000/4000.0)));
+
     }
 }

@@ -2,17 +2,17 @@ Version 4.0 HI-TECH Software Intermediate Code
 "110 mcc_generated_files/interrupt_manager.h
 [; ;mcc_generated_files/interrupt_manager.h: 110: void INTERRUPT_Initialize (void);
 [v _INTERRUPT_Initialize `(v ~T0 @X0 0 ef ]
-"175 mcc_generated_files/pin_manager.h
-[; ;mcc_generated_files/pin_manager.h: 175: void PIN_MANAGER_Initialize (void);
+"189 mcc_generated_files/pin_manager.h
+[; ;mcc_generated_files/pin_manager.h: 189: void PIN_MANAGER_Initialize (void);
 [v _PIN_MANAGER_Initialize `(v ~T0 @X0 0 ef ]
 "85 mcc_generated_files/mcc.h
 [; ;mcc_generated_files/mcc.h: 85: void OSCILLATOR_Initialize(void);
 [v _OSCILLATOR_Initialize `(v ~T0 @X0 0 ef ]
-"134 mcc_generated_files/adc.h
-[; ;mcc_generated_files/adc.h: 134: void ADC_Initialize(void);
+"135 mcc_generated_files/adc.h
+[; ;mcc_generated_files/adc.h: 135: void ADC_Initialize(void);
 [v _ADC_Initialize `(v ~T0 @X0 0 ef ]
-"116 mcc_generated_files/eusart1.h
-[; ;mcc_generated_files/eusart1.h: 116: void EUSART1_Initialize(void);
+"117 mcc_generated_files/eusart1.h
+[; ;mcc_generated_files/eusart1.h: 117: void EUSART1_Initialize(void);
 [v _EUSART1_Initialize `(v ~T0 @X0 0 ef ]
 "13761 C:/Program Files/Microchip/MPLABX/v6.10/packs/Microchip/PIC18F-J_DFP/1.6.157/xc8\pic\include\proc\pic18f97j60.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.10/packs/Microchip/PIC18F-J_DFP/1.6.157/xc8\pic\include\proc\pic18f97j60.h: 13761: extern volatile unsigned char OSCCON __attribute__((address(0xFD3)));
@@ -890,6 +890,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "14693
 [; ;C:/Program Files/Microchip/MPLABX/v6.10/packs/Microchip/PIC18F-J_DFP/1.6.157/xc8\pic\include\proc\pic18f97j60.h: 14693: __asm("TOSU equ 0FFFh");
 [; <" TOSU equ 0FFFh ;# ">
+"88 mcc_generated_files/eusart1.h
+[; ;mcc_generated_files/eusart1.h: 88: uint8_t connected;
+[v _connected `uc ~T0 @X0 1 e ]
 "50 mcc_generated_files/mcc.c
 [; ;mcc_generated_files/mcc.c: 50: void SYSTEM_Initialize(void)
 [v _SYSTEM_Initialize `(v ~T0 @X0 1 ef ]

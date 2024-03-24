@@ -49,6 +49,7 @@
 */
 #include "eusart1.h"
 #include "../LCD-library/LCD-library.h"
+#include "../mcc_generated_files/mcc.h"
 /**
   Section: Macro Declarations
 */
@@ -59,7 +60,8 @@
 /**
   Section: Global Variables
 */
-
+uint8_t len = 0;
+char command[34] = "";
 volatile uint8_t eusart1RxHead = 0;
 volatile uint8_t eusart1RxTail = 0;
 volatile uint8_t eusart1RxBuffer[EUSART1_RX_BUFFER_SIZE];
@@ -79,21 +81,33 @@ void (*EUSART1_ErrorHandler)(void);
 void EUSART1_DefaultFramingErrorHandler(void);
 void EUSART1_DefaultOverrunErrorHandler(void);
 void EUSART1_DefaultErrorHandler(void);
-char command[35] = "";
-void PrintOnScreen(void){
+void HandleInterrupt(void){
     EUSART1_Receive_ISR();
     char received = EUSART1_Read();
-    if (received == 3){
-        if (command[0] == 'l'){
-            int len = strlen(command);
-            for (int i = 0; i < len; i++){
-                command[i] = command[i + 1];
+    if (received == '\r' || len == 34){
+        if (command[0] == 1){
+            while(!EUSART1_is_tx_ready);
+            EUSART1_Write(PORTBbits.RB3);
+            EUSART1_Write(' ');
+            EUSART1_Write(PORTBbits.RB1);
+            EUSART1_Write(' ');
+            char potValue[5];
+            sprintf(potValue, "%d", ADC_GetConversion(Potentiometer));
+            uint8_t len = strlen(potValue);
+            for(int i = 0; i < len; i++){
+                EUSART1_Write(potValue[i]);
             }
-            LCD_Clear();
-            LCD_PrintStr(command);
-            command[strlen(command) - 1] = ' ';
+            EUSART1_Write(' ');
+            char temperature[6];
+            sprintf(temperature, "%.0f", 4100.0 / log(((1024.0 * 10000.0) / ADC_GetConversion(Temperature) - 10000.0) / 0.0111182) - 273.15);
+            len = strlen(temperature);
+            for(int i = 0; i < len; i++){
+                EUSART1_Write(temperature[i]);
+            }
+            EUSART1_Write(' ');
+            EUSART1_Write('\r');
         }
-        else if (command[0] == 'd'){
+        else if (command[0] == 2){
             switch (command[1]){
                 case '1':
                     PORTJbits.RJ0 = !PORTJbits.RJ0;
@@ -104,22 +118,27 @@ void PrintOnScreen(void){
                 case '3':
                     PORTJbits.RJ2 = !PORTJbits.RJ2;
                     break;
+                default:
+                    break;
             }
         }
-        command[0] = '\0';
+        else if (command[0] == 3){
+            LCD_Clear();
+            command[len] = '\0';
+            LCD_PrintStr(command + 1, 50);
+        }
+        len = 0;
     }
-    else{
-        uint8_t length = strlen(command);
-        command[length] = received;
-        command[length + 1] = '\0';
+    else {
+        command[len] = received;
+        len++;
     }
 }
-
 void EUSART1_Initialize(void)
 {
     // disable interrupts before changing states
     PIE1bits.RC1IE = 0;
-    EUSART1_SetRxInterruptHandler(PrintOnScreen);
+    EUSART1_SetRxInterruptHandler(HandleInterrupt);
     // Set the EUSART1 module to the options selected in the user interface.
 
     // ABDOVF no_overflow; SCKP async_noninverted_sync_fallingedge; BRG16 16bit_generator; WUE disabled; ABDEN disabled; RXDTP not_inverted; 

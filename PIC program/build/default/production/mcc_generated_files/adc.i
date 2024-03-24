@@ -8845,21 +8845,22 @@ typedef struct
 typedef enum
 {
     channel_AN0 = 0x0,
-    Potentiometer = 0x2
+    Potentiometer = 0x2,
+    Temperature = 0x3
 } adc_channel_t;
-# 134 "mcc_generated_files/adc.h"
+# 135 "mcc_generated_files/adc.h"
 void ADC_Initialize(void);
-# 164 "mcc_generated_files/adc.h"
+# 165 "mcc_generated_files/adc.h"
 void ADC_SelectChannel(adc_channel_t channel);
-# 191 "mcc_generated_files/adc.h"
+# 192 "mcc_generated_files/adc.h"
 void ADC_StartConversion(void);
-# 223 "mcc_generated_files/adc.h"
+# 224 "mcc_generated_files/adc.h"
 _Bool ADC_IsConversionDone(void);
-# 256 "mcc_generated_files/adc.h"
+# 257 "mcc_generated_files/adc.h"
 adc_result_t ADC_GetConversionResult(void);
-# 286 "mcc_generated_files/adc.h"
+# 287 "mcc_generated_files/adc.h"
 adc_result_t ADC_GetConversion(adc_channel_t channel);
-# 314 "mcc_generated_files/adc.h"
+# 315 "mcc_generated_files/adc.h"
 void ADC_TemperatureAcquisitionDelay(void);
 # 52 "mcc_generated_files/adc.c" 2
 

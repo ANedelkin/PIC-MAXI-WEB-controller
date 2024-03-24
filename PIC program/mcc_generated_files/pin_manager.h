@@ -95,6 +95,20 @@
 #define Potentiometer_SetAnalogMode()      do { anselRA2bits.anselRA2 = 1; } while(0)
 #define Potentiometer_SetDigitalMode()     do { anselRA2bits.anselRA2 = 0; } while(0)
 
+// get/set Temperature aliases
+#define Temperature_TRIS                 TRISAbits.TRISA3
+#define Temperature_LAT                  LATAbits.LATA3
+#define Temperature_PORT                 PORTAbits.RA3
+#define Temperature_ANS                  anselRA3bits.anselRA3
+#define Temperature_SetHigh()            do { LATAbits.LATA3 = 1; } while(0)
+#define Temperature_SetLow()             do { LATAbits.LATA3 = 0; } while(0)
+#define Temperature_Toggle()             do { LATAbits.LATA3 = ~LATAbits.LATA3; } while(0)
+#define Temperature_GetValue()           PORTAbits.RA3
+#define Temperature_SetDigitalInput()    do { TRISAbits.TRISA3 = 1; } while(0)
+#define Temperature_SetDigitalOutput()   do { TRISAbits.TRISA3 = 0; } while(0)
+#define Temperature_SetAnalogMode()      do { anselRA3bits.anselRA3 = 1; } while(0)
+#define Temperature_SetDigitalMode()     do { anselRA3bits.anselRA3 = 0; } while(0)
+
 // get/set IO_RB1 aliases
 #define IO_RB1_TRIS                 TRISBbits.TRISB1
 #define IO_RB1_LAT                  LATBbits.LATB1

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-  <executable name="dist/default/production\RS232_communication.X.production.hex">
+  <executable name="dist/default/production\PIC_program.production.hex">
     <memory name="program">
       <units>bytes</units>
       <length>131064</length>
-      <used>5590</used>
-      <free>125474</free>
+      <used>16592</used>
+      <free>114472</free>
     </memory>
     <memory name="data">
       <units>bytes</units>
       <length>3808</length>
-      <used>262</used>
-      <free>3546</free>
+      <used>437</used>
+      <free>3371</free>
     </memory>
   </executable>
 </project>

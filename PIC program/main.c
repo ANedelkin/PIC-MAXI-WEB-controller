@@ -42,6 +42,7 @@
 */
 
 #include "mcc_generated_files/mcc.h"
+#include "mcc_generated_files/eusart1.h"
 #include "LCD-library/LCD-library.h"
 
 /*
@@ -57,20 +58,7 @@ void main(void)
     LCD_isBacklightOn = true;
     while (1)
     {
-        while(!EUSART1_is_tx_ready);
-        EUSART1_Write(PORTBbits.RB3 + '0');
-        EUSART1_Write(' ');
-        EUSART1_Write(PORTBbits.RB1 + '0');
-        EUSART1_Write(' ');
-        char potValue[5];
-        sprintf(potValue, "%d", ADC_GetConversion(Potentiometer));
-        uint8_t len = strlen(potValue);
-        for(int i = 0; i < len; i++){
-            EUSART1_Write(potValue[i]);
-        }
-        EUSART1_Write(' ');
-        EUSART1_Write(3);
-        __delay_ms(100);
+        
     }
 }
 /**

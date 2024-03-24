@@ -93,7 +93,7 @@ void LCD_Init();
 // displays a given character on position of cursor
 void LCD_PrintChar(char);
 // displays a given string starting on position of cursor
-void LCD_PrintStr(const char *);
+void LCD_PrintStr(const char *, int);
 // clears LCD and sets cursor at (1,1)
 void LCD_Clear();
 // turns LCD off
@@ -102,10 +102,6 @@ void LCD_TurnOff();
 void LCD_TurnOn();
 // set cursor at position (row, pos), where Y=row and X=pos
 void LCD_SetCursorAt(int, int);
-// sets cursor at (1,1) but doesn't clear display
-//void LCD_home();
-// displays a given string using typewriter effect -- it delays given number of milliseconds after displaying each letter
-void LCD_TypeStr(const char *, int);
 // displays cursor
 void LCD_CursorOn();
 // hides cursor
@@ -115,9 +111,7 @@ void LCD_CursorBlinkingOn();
 // stops cursor from blinking
 void LCD_CursorBlinkingOff();
 // displays an integer (type: *int*; range -32767, 32767)
-void LCD_PrintNum(long int);
-// displays an integer right justified (type: *int*; range -32767, 32767)
-void LCD_displayNumberRight(long int);
+void LCD_PrintNum(long int, int);
 // move cursor to the left by number of positions specified
 void LCD_MoveCursorLeft(int);
 // move cursor to the right by number of positions specified
@@ -126,10 +120,8 @@ void LCD_MoveCursorRight(int);
 void LCD_MoveCursorUp(int);
 // move cursor down by number of positions specified
 void LCD_MoveCursorDown(int);
-
+// Creates a new character and saves it on the LCD
 void LCD_NewChar(uint8_t location, const uint8_t *pattern);
-
-//void LCD_backlightOnOff();
 
 #ifdef	__cplusplus
 }

@@ -1,5 +1,5 @@
 Version 4.0 HI-TECH Software Intermediate Code
-[v F4932 `(v ~T0 @X0 0 tf ]
+[v F4933 `(v ~T0 @X0 0 tf ]
 "11642 C:/Program Files/Microchip/MPLABX/v6.10/packs/Microchip/PIC18F-J_DFP/1.6.157/xc8\pic\include\proc\pic18f97j60.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.10/packs/Microchip/PIC18F-J_DFP/1.6.157/xc8\pic\include\proc\pic18f97j60.h: 11642: extern volatile unsigned char ADCON1 __attribute__((address(0xFC1)));
 [v _ADCON1 `Vuc ~T0 @X0 0 e@4033 ]
@@ -17,8 +17,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _ADCON0 `Vuc ~T0 @X0 0 e@4034 ]
 "82 mcc_generated_files/adc.c
 [; ;mcc_generated_files/adc.c: 82: void ADC_SelectChannel(adc_channel_t channel)
-[c E4918 0 2 .. ]
-[n E4918 . channel_AN0 Potentiometer  ]
+[c E4918 0 2 3 .. ]
+[n E4918 . channel_AN0 Potentiometer Temperature  ]
 "11733 C:/Program Files/Microchip/MPLABX/v6.10/packs/Microchip/PIC18F-J_DFP/1.6.157/xc8\pic\include\proc\pic18f97j60.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.10/packs/Microchip/PIC18F-J_DFP/1.6.157/xc8\pic\include\proc\pic18f97j60.h: 11733:     struct {
 [s S425 :1 `uc 1 :1 `uc 1 ]
@@ -934,7 +934,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; <" TOSU equ 0FFFh ;# ">
 "55 mcc_generated_files/adc.c
 [; ;mcc_generated_files/adc.c: 55: void (*ADC_InterruptHandler)(void);
-[v _ADC_InterruptHandler `*F4932 ~T0 @X0 1 e ]
+[v _ADC_InterruptHandler `*F4933 ~T0 @X0 1 e ]
 "61
 [; ;mcc_generated_files/adc.c: 61: void ADC_Initialize(void)
 [v _ADC_Initialize `(v ~T0 @X0 1 ef ]

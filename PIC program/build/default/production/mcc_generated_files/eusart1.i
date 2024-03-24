@@ -8844,6 +8844,7 @@ typedef union {
 
 
 
+uint8_t connected;
 extern volatile uint8_t eusart1TxBufferRemaining;
 extern volatile uint8_t eusart1RxCount;
 
@@ -8851,32 +8852,34 @@ extern volatile uint8_t eusart1RxCount;
 
 
 extern void (*EUSART1_RxDefaultInterruptHandler)(void);
-# 116 "mcc_generated_files/eusart1.h"
+# 117 "mcc_generated_files/eusart1.h"
 void EUSART1_Initialize(void);
-# 164 "mcc_generated_files/eusart1.h"
+# 165 "mcc_generated_files/eusart1.h"
 _Bool EUSART1_is_tx_ready(void);
-# 212 "mcc_generated_files/eusart1.h"
+# 213 "mcc_generated_files/eusart1.h"
 _Bool EUSART1_is_rx_ready(void);
-# 259 "mcc_generated_files/eusart1.h"
+# 260 "mcc_generated_files/eusart1.h"
 _Bool EUSART1_is_tx_done(void);
-# 307 "mcc_generated_files/eusart1.h"
+# 308 "mcc_generated_files/eusart1.h"
 eusart1_status_t EUSART1_get_last_status(void);
-# 327 "mcc_generated_files/eusart1.h"
+# 328 "mcc_generated_files/eusart1.h"
 uint8_t EUSART1_Read(void);
-# 347 "mcc_generated_files/eusart1.h"
+# 348 "mcc_generated_files/eusart1.h"
 void EUSART1_Write(uint8_t txData);
-# 369 "mcc_generated_files/eusart1.h"
+# 370 "mcc_generated_files/eusart1.h"
 void EUSART1_Receive_ISR(void);
-# 390 "mcc_generated_files/eusart1.h"
+# 391 "mcc_generated_files/eusart1.h"
 void EUSART1_RxDataHandler(void);
-# 408 "mcc_generated_files/eusart1.h"
+# 409 "mcc_generated_files/eusart1.h"
 void EUSART1_SetFramingErrorHandler(void (* interruptHandler)(void));
-# 425 "mcc_generated_files/eusart1.h"
+# 426 "mcc_generated_files/eusart1.h"
   void EUSART1_SetOverrunErrorHandler(void (* interruptHandler)(void));
-# 443 "mcc_generated_files/eusart1.h"
+# 444 "mcc_generated_files/eusart1.h"
 void EUSART1_SetErrorHandler(void (* interruptHandler)(void));
-# 464 "mcc_generated_files/eusart1.h"
+# 465 "mcc_generated_files/eusart1.h"
 void EUSART1_SetRxInterruptHandler(void (* interruptHandler)(void));
+void HandleCommand(char received);
+void HandleInterrupt(void);
 # 50 "mcc_generated_files/eusart1.c" 2
 
 # 1 "mcc_generated_files/../LCD-library/LCD-library.h" 1
@@ -9497,7 +9500,7 @@ void LCD_Init();
 
 void LCD_PrintChar(char);
 
-void LCD_PrintStr(const char *);
+void LCD_PrintStr(const char *, int);
 
 void LCD_Clear();
 
@@ -9507,10 +9510,6 @@ void LCD_TurnOn();
 
 void LCD_SetCursorAt(int, int);
 
-
-
-void LCD_TypeStr(const char *, int);
-
 void LCD_CursorOn();
 
 void LCD_CursorOff();
@@ -9519,9 +9518,7 @@ void LCD_CursorBlinkingOn();
 
 void LCD_CursorBlinkingOff();
 
-void LCD_PrintNum(long int);
-
-void LCD_displayNumberRight(long int);
+void LCD_PrintNum(long int, int);
 
 void LCD_MoveCursorLeft(int);
 
@@ -9533,7 +9530,71 @@ void LCD_MoveCursorDown(int);
 
 void LCD_NewChar(uint8_t location, const uint8_t *pattern);
 # 51 "mcc_generated_files/eusart1.c" 2
+
+# 1 "mcc_generated_files/../mcc_generated_files/mcc.h" 1
+# 50 "mcc_generated_files/../mcc_generated_files/mcc.h"
+# 1 "mcc_generated_files/device_config.h" 1
+# 50 "mcc_generated_files/../mcc_generated_files/mcc.h" 2
+
+# 1 "mcc_generated_files/pin_manager.h" 1
+# 189 "mcc_generated_files/pin_manager.h"
+void PIN_MANAGER_Initialize (void);
+# 201 "mcc_generated_files/pin_manager.h"
+void PIN_MANAGER_IOC(void);
+# 51 "mcc_generated_files/../mcc_generated_files/mcc.h" 2
+
+
+
+# 1 "C:\\Program Files\\Microchip\\xc8\\v2.41\\pic\\include\\c99\\conio.h" 1 3
+# 54 "mcc_generated_files/../mcc_generated_files/mcc.h" 2
+
+# 1 "mcc_generated_files/interrupt_manager.h" 1
+# 110 "mcc_generated_files/interrupt_manager.h"
+void INTERRUPT_Initialize (void);
+# 55 "mcc_generated_files/../mcc_generated_files/mcc.h" 2
+
+# 1 "mcc_generated_files/adc.h" 1
+# 72 "mcc_generated_files/adc.h"
+typedef uint16_t adc_result_t;
+
+
+
+
+typedef struct
+{
+    adc_result_t adcResult1;
+    adc_result_t adcResult2;
+} adc_sync_double_result_t;
+# 95 "mcc_generated_files/adc.h"
+typedef enum
+{
+    channel_AN0 = 0x0,
+    Potentiometer = 0x2,
+    Temperature = 0x3
+} adc_channel_t;
+# 135 "mcc_generated_files/adc.h"
+void ADC_Initialize(void);
+# 165 "mcc_generated_files/adc.h"
+void ADC_SelectChannel(adc_channel_t channel);
+# 192 "mcc_generated_files/adc.h"
+void ADC_StartConversion(void);
+# 224 "mcc_generated_files/adc.h"
+_Bool ADC_IsConversionDone(void);
+# 257 "mcc_generated_files/adc.h"
+adc_result_t ADC_GetConversionResult(void);
+# 287 "mcc_generated_files/adc.h"
+adc_result_t ADC_GetConversion(adc_channel_t channel);
+# 315 "mcc_generated_files/adc.h"
+void ADC_TemperatureAcquisitionDelay(void);
+# 56 "mcc_generated_files/../mcc_generated_files/mcc.h" 2
+# 72 "mcc_generated_files/../mcc_generated_files/mcc.h"
+void SYSTEM_Initialize(void);
+# 85 "mcc_generated_files/../mcc_generated_files/mcc.h"
+void OSCILLATOR_Initialize(void);
+# 52 "mcc_generated_files/eusart1.c" 2
 # 63 "mcc_generated_files/eusart1.c"
+uint8_t len = 0;
+char command[34] = "";
 volatile uint8_t eusart1RxHead = 0;
 volatile uint8_t eusart1RxTail = 0;
 volatile uint8_t eusart1RxBuffer[8];
@@ -9553,21 +9614,33 @@ void (*EUSART1_ErrorHandler)(void);
 void EUSART1_DefaultFramingErrorHandler(void);
 void EUSART1_DefaultOverrunErrorHandler(void);
 void EUSART1_DefaultErrorHandler(void);
-char command[35] = "";
-void PrintOnScreen(void){
+void HandleInterrupt(void){
     EUSART1_Receive_ISR();
     char received = EUSART1_Read();
-    if (received == 3){
-        if (command[0] == 'l'){
-            int len = strlen(command);
-            for (int i = 0; i < len; i++){
-                command[i] = command[i + 1];
+    if (received == '\r' || len == 34){
+        if (command[0] == 1){
+            while(!EUSART1_is_tx_ready);
+            EUSART1_Write(PORTBbits.RB3);
+            EUSART1_Write(' ');
+            EUSART1_Write(PORTBbits.RB1);
+            EUSART1_Write(' ');
+            char potValue[5];
+            sprintf(potValue, "%d", ADC_GetConversion(Potentiometer));
+            uint8_t len = strlen(potValue);
+            for(int i = 0; i < len; i++){
+                EUSART1_Write(potValue[i]);
             }
-            LCD_Clear();
-            LCD_PrintStr(command);
-            command[strlen(command) - 1] = ' ';
+            EUSART1_Write(' ');
+            char temperature[6];
+            sprintf(temperature, "%.0f", 4100.0 / logf(((1024.0 * 10000.0) / ADC_GetConversion(Temperature) - 10000.0) / 0.0111182) - 273.15);
+            len = strlen(temperature);
+            for(int i = 0; i < len; i++){
+                EUSART1_Write(temperature[i]);
+            }
+            EUSART1_Write(' ');
+            EUSART1_Write('\r');
         }
-        else if (command[0] == 'd'){
+        else if (command[0] == 2){
             switch (command[1]){
                 case '1':
                     PORTJbits.RJ0 = !PORTJbits.RJ0;
@@ -9578,22 +9651,27 @@ void PrintOnScreen(void){
                 case '3':
                     PORTJbits.RJ2 = !PORTJbits.RJ2;
                     break;
+                default:
+                    break;
             }
         }
-        command[0] = '\0';
+        else if (command[0] == 3){
+            LCD_Clear();
+            command[len] = '\0';
+            LCD_PrintStr(command + 1, 50);
+        }
+        len = 0;
     }
-    else{
-        uint8_t length = strlen(command);
-        command[length] = received;
-        command[length + 1] = '\0';
+    else {
+        command[len] = received;
+        len++;
     }
 }
-
 void EUSART1_Initialize(void)
 {
 
     PIE1bits.RC1IE = 0;
-    EUSART1_SetRxInterruptHandler(PrintOnScreen);
+    EUSART1_SetRxInterruptHandler(HandleInterrupt);
 
 
 

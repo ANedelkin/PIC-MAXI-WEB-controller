@@ -95,7 +95,8 @@ typedef struct
 typedef enum
 {
     channel_AN0 =  0x0,
-    Potentiometer =  0x2
+    Potentiometer =  0x2,
+    Temperature =  0x3
 } adc_channel_t;
 
 /**
