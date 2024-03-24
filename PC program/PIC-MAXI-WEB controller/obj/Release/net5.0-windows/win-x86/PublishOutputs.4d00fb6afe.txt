@@ -1,2 +1,0 @@
-C:\Users\Alex\source\repos\PIC controller test\PIC controller test\bin\Release\net5.0-windows\publish\PIC controller test.pdb
-C:\Users\Alex\source\repos\PIC controller test\PIC controller test\bin\Release\net5.0-windows\publish\PIC controller test.exe
