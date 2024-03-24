@@ -80,7 +80,7 @@ void EUSART1_DefaultFramingErrorHandler(void);
 void EUSART1_DefaultOverrunErrorHandler(void);
 void EUSART1_DefaultErrorHandler(void);
 char command[35] = "";
-void PrintOnScreen(void){
+void HandleReceived(void){
     EUSART1_Receive_ISR();
     char received = EUSART1_Read();
     if (received == 3){
@@ -119,7 +119,7 @@ void EUSART1_Initialize(void)
 {
     // disable interrupts before changing states
     PIE1bits.RC1IE = 0;
-    EUSART1_SetRxInterruptHandler(PrintOnScreen);
+    EUSART1_SetRxInterruptHandler(HandleReceived);
     // Set the EUSART1 module to the options selected in the user interface.
 
     // ABDOVF no_overflow; SCKP async_noninverted_sync_fallingedge; BRG16 16bit_generator; WUE disabled; ABDEN disabled; RXDTP not_inverted; 
