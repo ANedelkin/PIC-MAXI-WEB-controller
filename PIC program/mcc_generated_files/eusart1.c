@@ -81,6 +81,7 @@ void (*EUSART1_ErrorHandler)(void);
 void EUSART1_DefaultFramingErrorHandler(void);
 void EUSART1_DefaultOverrunErrorHandler(void);
 void EUSART1_DefaultErrorHandler(void);
+
 void HandleInterrupt(void){
     EUSART1_Receive_ISR();
     char received = EUSART1_Read();
